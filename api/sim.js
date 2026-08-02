@@ -1,23 +1,10 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-    const referer = req.headers.referer || "";
-    const origin = req.headers.origin || "";
-    
-    const allowedDomain = "ftgmdb.pages.dev";
-
-    if (!referer.includes(allowedDomain) && !origin.includes(allowedDomain)) {
-        res.setHeader('Content-Type', 'application/json');
-        return res.status(403).send(JSON.stringify({
-            ok: false,
-            message: "Chutiya Detected!. We are Detect that you are a Chutiya Copy Paster so This Api is Not Working For You",
-            owner: "FTGM HACKS OFFICIAL"
-        }, null, 2));
-    }
-
     const { num } = req.query;
 
     if (!num) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Content-Type', 'application/json');
         return res.status(400).send(JSON.stringify({
             ok: false,
@@ -47,17 +34,18 @@ module.exports = async (req, res) => {
 
         const finalResponse = {
             status: "Success",
-            owner: "FTGM HACKS",
+            owner: "FTGM TECH",
             whatsapp: "https://wa.me/+923104882921",
             telegram: "https://t.me/FTGMHACKS",
             ...simData
         };
 
-        res.setHeader('Access-Control-Allow-Origin', `https://${allowedDomain}`);
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Content-Type', 'application/json');
         res.status(200).send(JSON.stringify(finalResponse, null, 2));
 
     } catch (error) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Content-Type', 'application/json');
         res.status(500).send(JSON.stringify({ 
             ok: false, 
