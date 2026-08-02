@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         return res.status(400).send(JSON.stringify({
             ok: false,
-            message: "Please provide a number (?num=300xxxxxxx)"
+            message: "Please provide a number (?num=300xxxxxxx or CNIC)"
         }, null, 2));
     }
 
@@ -20,24 +20,22 @@ module.exports = async (req, res) => {
         });
         
         let data = response.data;
-        let simData = {};
+        let records = [];
 
-        if (Array.isArray(data) && data.length > 0) {
-            simData = data[0];
-        } else if (data && typeof data === 'object' && !Array.isArray(data)) {
-            simData = data;
-        }
-
-        if (simData.creator) {
-            delete simData.creator;
+        if (Array.isArray(data)) {
+            records = data;
+        } else if (data && typeof data === 'object') {
+            if (data.Name || data.CNIC || data.Mobile) {
+                records = [data];
+            }
         }
 
         const finalResponse = {
             status: "Success",
-            owner: "FTGM TECH",
+            owner: "FTGM HACKS",
             whatsapp: "https://wa.me/+923104882921",
-            telegram: "https://t.me/FTGMHACKS",
-            ...simData
+            main: "https:ftgmtools.pages.dev",
+            records: records
         };
 
         res.setHeader('Access-Control-Allow-Origin', '*');
